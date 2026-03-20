@@ -1,0 +1,3485 @@
+basePath: /api/v1
+definitions:
+  auth.Account:
+    properties:
+      activation:
+        type: integer
+      advancedSettings:
+        $ref: '#/definitions/auth.AdvancedSettings'
+      aminoId:
+        type: string
+      aminoIdEditable:
+        type: boolean
+      appleID:
+        type: string
+      createdTime:
+        type: string
+      email:
+        type: string
+      emailActivation:
+        type: integer
+      extensions:
+        $ref: '#/definitions/auth.AccountExtensions'
+      facebookID:
+        type: string
+      googleID:
+        type: string
+      icon:
+        type: string
+      mediaList:
+        description: '[[100, "url", null], ...]'
+        items:
+          $ref: '#/definitions/utils.MediaItem'
+        type: array
+      membership: {}
+      modifiedTime:
+        type: string
+      nickname:
+        type: string
+      phoneNumber:
+        type: string
+      phoneNumberActivation:
+        type: integer
+      role:
+        type: integer
+      securityLevel:
+        type: integer
+      status:
+        type: integer
+      twitterID:
+        type: string
+      uid:
+        type: string
+      username:
+        type: string
+    type: object
+  auth.AccountExtensions:
+    properties:
+      adsEnabled:
+        type: boolean
+      adsFlags:
+        type: integer
+      adsLevel:
+        type: integer
+      contentLanguage:
+        type: string
+      deviceInfo:
+        $ref: '#/definitions/auth.DeviceInfo'
+      mediaLabAdsMigrationAugust2020:
+        type: boolean
+      mediaLabAdsMigrationJuly2020:
+        type: boolean
+      visitSettings:
+        $ref: '#/definitions/auth.VisitSettings'
+    type: object
+  auth.AdvancedSettings:
+    properties:
+      analyticsEnabled:
+        type: integer
+    type: object
+  auth.DeviceInfo:
+    properties:
+      lastClientType:
+        type: integer
+    type: object
+  auth.LoginRequest:
+    properties:
+      clientType:
+        description: должно быть 100
+        type: integer
+      deviceID:
+        type: string
+      email:
+        type: string
+      secret:
+        description: 'формат: "0 $password"'
+        type: string
+      v:
+        description: версия, должно быть 2
+        type: integer
+    type: object
+  auth.LoginResponse:
+    properties:
+      account:
+        $ref: '#/definitions/auth.Account'
+      auid:
+        type: string
+      secret:
+        type: string
+      sid:
+        type: string
+      userProfile:
+        $ref: '#/definitions/user.User'
+    type: object
+  auth.RegisterRequest:
+    properties:
+      address:
+        type: string
+      clientCallbackURL:
+        type: string
+      clientType:
+        type: integer
+      deviceID:
+        type: string
+      email:
+        type: string
+      identity:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      nickname:
+        type: string
+      secret:
+        type: string
+      type:
+        type: integer
+      validationContext:
+        $ref: '#/definitions/auth.ValidationContext'
+    type: object
+  auth.SecurityValidationRequest:
+    properties:
+      deviceID:
+        type: string
+      identity:
+        description: email
+        type: string
+      type:
+        type: integer
+    type: object
+  auth.ValidationContext:
+    properties:
+      data:
+        $ref: '#/definitions/auth.ValidationData'
+      identity:
+        type: string
+      level:
+        type: integer
+      type:
+        type: integer
+    type: object
+  auth.ValidationData:
+    properties:
+      code:
+        type: string
+    type: object
+  auth.VisitSettings:
+    properties:
+      notificationStatus:
+        type: integer
+      privacyMode:
+        type: integer
+    type: object
+  blog.CreateBlogRequest:
+    properties:
+      content:
+        type: string
+      mediaList:
+        items:
+          $ref: '#/definitions/utils.MediaItem'
+        type: array
+      title:
+        type: string
+    type: object
+  chat.CreateThreadRequest:
+    properties:
+      content:
+        maxLength: 5000
+        type: string
+      icon:
+        type: string
+      inviteeUids:
+        items:
+          type: string
+        type: array
+      title:
+        maxLength: 500
+        minLength: 1
+        type: string
+      type:
+        maximum: 2
+        minimum: 0
+        type: integer
+    required:
+    - title
+    - type
+    type: object
+  chat.InviteRequest:
+    properties:
+      uids:
+        items:
+          type: string
+        type: array
+    type: object
+  chat.SendMessageRequest:
+    properties:
+      clientRefId:
+        type: integer
+      content:
+        type: string
+      extensions:
+        properties:
+          mentionedArray:
+            items:
+              properties:
+                uid:
+                  type: string
+              type: object
+            type: array
+        type: object
+      mediaType:
+        type: integer
+      mediaValue:
+        type: string
+      replyMessageId:
+        type: string
+      stickerId:
+        type: string
+      type:
+        type: integer
+    type: object
+  chat.UpdateThreadRequest:
+    properties:
+      content:
+        type: string
+      extensions:
+        properties:
+          announcement:
+            type: string
+          fansOnly:
+            type: boolean
+          pinAnnouncement:
+            type: boolean
+        type: object
+      icon:
+        type: string
+      keywords:
+        type: string
+      publishToGlobal:
+        type: integer
+      title:
+        type: string
+    type: object
+  community.BanRequest:
+    properties:
+      note:
+        properties:
+          content:
+            type: string
+        type: object
+    type: object
+  community.CreateCommunityRequest:
+    properties:
+      icon:
+        type: string
+      keywords:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      primaryLanguage:
+        type: string
+      privacyMode:
+        description: '0: Open, 1: Approval Required, 2: Private'
+        type: integer
+      tagline:
+        type: string
+      themeColor:
+        type: string
+    type: object
+  media.UploadResponse:
+    properties:
+      mediaValue:
+        type: string
+    type: object
+  response.ErrorResponse:
+    properties:
+      api:message:
+        type: string
+      api:statuscode:
+        type: integer
+    type: object
+  user.AvatarFrame:
+    properties:
+      createdAt:
+        $ref: '#/definitions/utils.CustomTime'
+      frameId:
+        type: string
+      frameType:
+        type: integer
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      ownershipStatus:
+        type: integer
+      resourceUrl:
+        type: string
+      status:
+        type: integer
+      updatedAt:
+        $ref: '#/definitions/utils.CustomTime'
+      version:
+        type: integer
+    type: object
+  user.CreateCommentRequest:
+    properties:
+      content:
+        type: string
+      respondTo:
+        type: string
+      stickerId:
+        type: string
+      type:
+        type: integer
+    type: object
+  user.CustomTitle:
+    properties:
+      color:
+        type: string
+      createdTime:
+        $ref: '#/definitions/utils.CustomTime'
+      id:
+        type: integer
+      title:
+        type: string
+      userId:
+        type: string
+    type: object
+  user.Extensions:
+    properties:
+      style:
+        $ref: '#/definitions/user.Style'
+    type: object
+  user.Style:
+    properties:
+      backgroundMediaList:
+        items:
+          items: {}
+          type: array
+        type: array
+    type: object
+  user.UpdateUserRequest:
+    properties:
+      avatarFrameId:
+        type: string
+      content:
+        type: string
+      icon:
+        type: string
+      mediaList:
+        type: string
+      mood:
+        type: string
+      moodSticker:
+        type: string
+      nickname:
+        type: string
+      notificationSubscriptionStatus:
+        type: integer
+      pushEnabled:
+        type: boolean
+    type: object
+  user.User:
+    properties:
+      accountMembershipStatus:
+        type: integer
+      aminoId:
+        type: string
+      avatarFrame:
+        allOf:
+        - $ref: '#/definitions/user.AvatarFrame'
+        description: Связи (загружаются через Preload при необходимости)
+      avatarFrameId:
+        type: string
+      blogsCount:
+        type: integer
+      commentsCount:
+        type: integer
+      consecutiveCheckInDays:
+        type: integer
+      content:
+        type: string
+      createdTime:
+        $ref: '#/definitions/utils.CustomTime'
+      customTitles:
+        items:
+          $ref: '#/definitions/user.CustomTitle'
+        type: array
+      extensions:
+        allOf:
+        - $ref: '#/definitions/user.Extensions'
+        description: Extensions - JSON поле для дополнительных данных
+      followingStatus:
+        type: integer
+      icon:
+        type: string
+      id:
+        type: integer
+      isGlobal:
+        type: boolean
+      isNicknameVerified:
+        type: boolean
+      itemsCount:
+        type: integer
+      joinedCount:
+        type: integer
+      level:
+        type: integer
+      mediaList:
+        items:
+          $ref: '#/definitions/utils.MediaItem'
+        type: array
+      membersCount:
+        type: integer
+      membershipStatus:
+        type: integer
+      modifiedTime:
+        $ref: '#/definitions/utils.CustomTime'
+      mood:
+        type: string
+      moodSticker:
+        type: string
+      ndcId:
+        type: integer
+      nickname:
+        type: string
+      notificationSubscriptionStatus:
+        type: integer
+      onlineStatus:
+        type: integer
+      postsCount:
+        type: integer
+      pushEnabled:
+        type: boolean
+      reputation:
+        type: integer
+      role:
+        type: integer
+      status:
+        type: integer
+      storiesCount:
+        type: integer
+      uid:
+        type: string
+    type: object
+  utils.CustomTime:
+    properties:
+      time.Time:
+        type: string
+    type: object
+  utils.MediaItem:
+    properties:
+      code:
+        type: string
+      extra1: {}
+      extra2: {}
+      meta: {}
+      type:
+        type: integer
+      url:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@gomino.com
+    name: API Support
+  description: This is the API server for GoMino.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: GoMino API
+  version: "1.0"
+paths:
+  /g/s-x{comId}/community:
+    get:
+      consumes:
+      - application/json
+      description: Get details of a specific community
+      parameters:
+      - description: Community ID or NDC ID
+        in: path
+        name: comId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get community details
+      tags:
+      - community
+  /g/s/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user with email and secret
+      parameters:
+      - description: Login credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Login to the application
+      tags:
+      - auth
+  /g/s/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with email, nickname, and secret
+      parameters:
+      - description: Registration data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Register a new user
+      tags:
+      - auth
+  /g/s/auth/request-security-validation:
+    post:
+      consumes:
+      - application/json
+      description: Send a validation code to the email
+      parameters:
+      - description: Validation request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SecurityValidationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Request security validation
+      tags:
+      - auth
+  /g/s/blog:
+    post:
+      consumes:
+      - application/json
+      description: Create a blog post accessible globally (only for admins/Astranet
+        team)
+      parameters:
+      - description: Blog details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/blog.CreateBlogRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a global blog post
+      tags:
+      - blog
+  /g/s/chat/thread:
+    get:
+      consumes:
+      - application/json
+      description: Get list of threads for the user or public threads
+      parameters:
+      - description: Thread type (joined-all, public-all)
+        in: query
+        name: type
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get threads list
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: Create a new chat thread
+      parameters:
+      - description: Thread details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/chat.CreateThreadRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a thread
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete thread
+      tags:
+      - chat
+    get:
+      consumes:
+      - application/json
+      description: Get details of a specific chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get thread info
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: Update details of a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Update details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/chat.UpdateThreadRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update a thread
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/mark-as-read:
+    post:
+      consumes:
+      - application/json
+      description: Mark all messages in a thread as read
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Mark thread as read
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member:
+    get:
+      consumes:
+      - application/json
+      description: Get list of members in a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get thread members
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member/{userId}:
+    delete:
+      consumes:
+      - application/json
+      description: Leave a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Leave thread
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: Join a specific chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: User ID (usually self)
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Join a thread
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member/{userId}/alert:
+    post:
+      consumes:
+      - application/json
+      description: Set alert options for a thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Alert Option
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties:
+            type: integer
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Set Do Not Disturb
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member/{userId}/background:
+    post:
+      consumes:
+      - application/json
+      description: Set background image for a thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Background Image URL
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Set background image
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member/{userId}/co-host:
+    post:
+      consumes:
+      - application/json
+      description: Assign co-host role to a member
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Set co-host
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member/invite:
+    post:
+      consumes:
+      - application/json
+      description: Invite users to a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Invite details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/chat.InviteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Invite to thread
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member/members-can-invite/disable:
+    post:
+      consumes:
+      - application/json
+      description: Disallow members to invite others
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Disable can invite
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member/members-can-invite/enable:
+    post:
+      consumes:
+      - application/json
+      description: Allow members to invite others
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Enable can invite
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member/transfer-organizer:
+    post:
+      consumes:
+      - application/json
+      description: Transfer thread ownership to another member
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Target User UID
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Transfer organizer
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member/view-only/disable:
+    post:
+      consumes:
+      - application/json
+      description: Disable view-only mode for a thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Disable view only
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/member/view-only/enable:
+    post:
+      consumes:
+      - application/json
+      description: Enable view-only mode for a thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Enable view only
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/message:
+    get:
+      consumes:
+      - application/json
+      description: Get list of messages in a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get thread messages
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: Send a new message to a specific chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Message details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/chat.SendMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Send a message to a thread
+      tags:
+      - chat
+  /g/s/chat/thread/{threadId}/message/{messageId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a specific message from a thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Message ID
+        in: path
+        name: messageId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete a message
+      tags:
+      - chat
+  /g/s/community:
+    post:
+      consumes:
+      - application/json
+      description: Create a new community with the given details
+      parameters:
+      - description: Community details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/community.CreateCommunityRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new community
+      tags:
+      - community
+  /g/s/community/joined:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of communities the user has joined
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get joined communities
+      tags:
+      - community
+  /g/s/media/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload media (image/video) and convert to AVIF
+      parameters:
+      - description: Media file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/media.UploadResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Upload media file
+      tags:
+      - media
+  /g/s/user-profile/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: Get public user profile information
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get user profile
+      tags:
+      - user-profile
+    post:
+      consumes:
+      - application/json
+      description: Update user profile details
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Update data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update user profile
+      tags:
+      - user-profile
+  /g/s/user-profile/{userId}/comment:
+    post:
+      consumes:
+      - application/json
+      description: Reply to a comment on the user's wall
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Comment data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Reply to wall comment
+      tags:
+      - user-profile
+  /g/s/user-profile/{userId}/comment/{commentId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a comment from the user's wall
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Comment ID
+        in: path
+        name: commentId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete wall comment
+      tags:
+      - user-profile
+  /g/s/user-profile/{userId}/g-comment:
+    get:
+      consumes:
+      - application/json
+      description: Get comments on the user's wall
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Sort order (newest/oldest)
+        in: query
+        name: sort
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get wall comments
+      tags:
+      - user-profile
+    post:
+      consumes:
+      - application/json
+      description: Add a comment to the user's wall
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Comment data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Add wall comment
+      tags:
+      - user-profile
+  /g/s/user-profile/{userId}/joined:
+    get:
+      consumes:
+      - application/json
+      description: Get list of users the target user is following
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get user following list
+      tags:
+      - user-profile
+  /g/s/user-profile/{userId}/member:
+    delete:
+      consumes:
+      - application/json
+      description: Unfollow the target user
+      parameters:
+      - description: User ID to unfollow
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Unfollow user
+      tags:
+      - user-profile
+    get:
+      consumes:
+      - application/json
+      description: Get list of users following the target user
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get user followers list
+      tags:
+      - user-profile
+    post:
+      consumes:
+      - application/json
+      description: Follow the target user
+      parameters:
+      - description: User ID to follow
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Follow user
+      tags:
+      - user-profile
+  /x{comId}/s/admin/operation:
+    get:
+      consumes:
+      - application/json
+      description: Get moderation logs for the community
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Page size (max 100)
+        in: query
+        name: size
+        type: integer
+      - description: Filter by Object ID
+        in: query
+        name: objectId
+        type: string
+      - description: Filter by Object Type
+        in: query
+        name: objectType
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get moderation history
+      tags:
+      - community-admin
+  /x{comId}/s/blog:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of blogs created by a specific user in the community
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: User ID
+        in: query
+        name: q
+        required: true
+        type: string
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get user blogs in community
+      tags:
+      - blog
+    post:
+      consumes:
+      - application/json
+      description: Create a blog post within a specific community
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Blog details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/blog.CreateBlogRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a community blog post
+      tags:
+      - blog
+  /x{comId}/s/blog/{blogId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a specific blog post
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Blog ID
+        in: path
+        name: blogId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete a blog post
+      tags:
+      - blog
+    get:
+      consumes:
+      - application/json
+      description: Get details of a specific blog post
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Blog ID
+        in: path
+        name: blogId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get a single blog post
+      tags:
+      - blog
+    post:
+      consumes:
+      - application/json
+      description: Update details of a specific blog post
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Blog ID
+        in: path
+        name: blogId
+        required: true
+        type: string
+      - description: Update data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/blog.CreateBlogRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update a blog post
+      tags:
+      - blog
+  /x{comId}/s/chat/thread:
+    get:
+      consumes:
+      - application/json
+      description: Get list of threads for the user or public threads
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Thread type (joined-all, public-all)
+        in: query
+        name: type
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get threads list
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: Create a new chat thread
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Thread details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/chat.CreateThreadRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a thread
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete thread
+      tags:
+      - chat
+    get:
+      consumes:
+      - application/json
+      description: Get details of a specific chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get thread info
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: Update details of a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Update details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/chat.UpdateThreadRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update a thread
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/mark-as-read:
+    post:
+      consumes:
+      - application/json
+      description: Mark all messages in a thread as read
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Mark thread as read
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member:
+    get:
+      consumes:
+      - application/json
+      description: Get list of members in a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get thread members
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member/{userId}:
+    delete:
+      consumes:
+      - application/json
+      description: Leave a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Leave thread
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: Join a specific chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: User ID (usually self)
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Join a thread
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member/{userId}/alert:
+    post:
+      consumes:
+      - application/json
+      description: Set alert options for a thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Alert Option
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties:
+            type: integer
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Set Do Not Disturb
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member/{userId}/background:
+    post:
+      consumes:
+      - application/json
+      description: Set background image for a thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Background Image URL
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Set background image
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member/{userId}/co-host:
+    post:
+      consumes:
+      - application/json
+      description: Assign co-host role to a member
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Set co-host
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member/invite:
+    post:
+      consumes:
+      - application/json
+      description: Invite users to a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Invite details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/chat.InviteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Invite to thread
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member/members-can-invite/disable:
+    post:
+      consumes:
+      - application/json
+      description: Disallow members to invite others
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Disable can invite
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member/members-can-invite/enable:
+    post:
+      consumes:
+      - application/json
+      description: Allow members to invite others
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Enable can invite
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member/transfer-organizer:
+    post:
+      consumes:
+      - application/json
+      description: Transfer thread ownership to another member
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Target User UID
+        in: body
+        name: request
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Transfer organizer
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member/view-only/disable:
+    post:
+      consumes:
+      - application/json
+      description: Disable view-only mode for a thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Disable view only
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/member/view-only/enable:
+    post:
+      consumes:
+      - application/json
+      description: Enable view-only mode for a thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Enable view only
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/message:
+    get:
+      consumes:
+      - application/json
+      description: Get list of messages in a chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get thread messages
+      tags:
+      - chat
+    post:
+      consumes:
+      - application/json
+      description: Send a new message to a specific chat thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Message details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/chat.SendMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Send a message to a thread
+      tags:
+      - chat
+  /x{comId}/s/chat/thread/{threadId}/message/{messageId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a specific message from a thread
+      parameters:
+      - description: Thread ID
+        in: path
+        name: threadId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Message ID
+        in: path
+        name: messageId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete a message
+      tags:
+      - chat
+  /x{comId}/s/community/join:
+    post:
+      consumes:
+      - application/json
+      description: Join a specific community
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Join a community
+      tags:
+      - community
+  /x{comId}/s/community/leave:
+    post:
+      consumes:
+      - application/json
+      description: Leave a specific community
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Leave a community
+      tags:
+      - community
+  /x{comId}/s/feed/blog-all:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of recent blogs in the community
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get community blog feed
+      tags:
+      - blog
+  /x{comId}/s/user-profile/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: Get public user profile information
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get user profile
+      tags:
+      - user-profile
+    post:
+      consumes:
+      - application/json
+      description: Update user profile details
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Update data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update user profile
+      tags:
+      - user-profile
+  /x{comId}/s/user-profile/{userId}/ban:
+    post:
+      consumes:
+      - application/json
+      description: Ban a user from the community
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Target User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Ban reason
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/community.BanRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Ban user
+      tags:
+      - community-admin
+  /x{comId}/s/user-profile/{userId}/comment:
+    post:
+      consumes:
+      - application/json
+      description: Reply to a comment on the user's wall
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Comment data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Reply to wall comment
+      tags:
+      - user-profile
+  /x{comId}/s/user-profile/{userId}/comment/{commentId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a comment from the user's wall
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Comment ID
+        in: path
+        name: commentId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete wall comment
+      tags:
+      - user-profile
+  /x{comId}/s/user-profile/{userId}/curator:
+    post:
+      consumes:
+      - application/json
+      description: Promote a user to curator role
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Target User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Promote user to curator
+      tags:
+      - community-admin
+  /x{comId}/s/user-profile/{userId}/g-comment:
+    get:
+      consumes:
+      - application/json
+      description: Get comments on the user's wall
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Sort order (newest/oldest)
+        in: query
+        name: sort
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get wall comments
+      tags:
+      - user-profile
+    post:
+      consumes:
+      - application/json
+      description: Add a comment to the user's wall
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Comment data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Add wall comment
+      tags:
+      - user-profile
+  /x{comId}/s/user-profile/{userId}/joined:
+    get:
+      consumes:
+      - application/json
+      description: Get list of users the target user is following
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get user following list
+      tags:
+      - user-profile
+  /x{comId}/s/user-profile/{userId}/leader:
+    post:
+      consumes:
+      - application/json
+      description: Promote a user to leader role
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Target User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Promote user to leader
+      tags:
+      - community-admin
+  /x{comId}/s/user-profile/{userId}/member:
+    delete:
+      consumes:
+      - application/json
+      description: Unfollow the target user
+      parameters:
+      - description: User ID to unfollow
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Unfollow user
+      tags:
+      - user-profile
+    get:
+      consumes:
+      - application/json
+      description: Get list of users following the target user
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      - description: Start offset
+        in: query
+        name: start
+        type: integer
+      - description: Page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get user followers list
+      tags:
+      - user-profile
+    post:
+      consumes:
+      - application/json
+      description: Follow the target user
+      parameters:
+      - description: User ID to follow
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Follow user
+      tags:
+      - user-profile
+  /x{comId}/s/user-profile/{userId}/transfer-agent:
+    post:
+      consumes:
+      - application/json
+      description: Transfer agent status to another user
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Target User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Transfer agent status
+      tags:
+      - community-admin
+  /x{comId}/s/user-profile/{userId}/unban:
+    post:
+      consumes:
+      - application/json
+      description: Unban a user from the community
+      parameters:
+      - description: Community ID (NDC ID)
+        in: path
+        name: comId
+        required: true
+        type: string
+      - description: Target User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: Unban reason
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/community.BanRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Unban user
+      tags:
+      - community-admin
+swagger: "2.0"

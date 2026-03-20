@@ -1,0 +1,39 @@
+api.astranetapp.com {
+    reverse_proxy api:8080
+
+    encode gzip
+
+    header {
+        -Server
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+    }
+}
+
+media.astranetapp.com {
+    reverse_proxy media:8081
+
+    header {
+        -Server
+        Cache-Control "public, max-age=31536000, immutable"
+        X-Content-Type-Options nosniff
+    }
+}
+
+testsite.astranetapp.com {
+    root * /srv/web
+    file_server
+    encode gzip
+    try_files {path} /index.html
+    header {
+        -Server
+        X-Content-Type-Options nosniff
+        Cross-Origin-Opener-Policy same-origin
+        Cross-Origin-Embedder-Policy require-corp
+    }
+    header /index.html Cache-Control "no-cache, no-store, must-revalidate"
+    header /flutter_bootstrap.js Cache-Control "no-cache, no-store, must-revalidate"
+    header /flutter_service_worker.js Cache-Control "no-cache, no-store, must-revalidate"
+    header /main.dart.js Cache-Control "no-cache, no-store, must-revalidate"
+}

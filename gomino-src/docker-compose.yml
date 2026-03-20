@@ -1,0 +1,75 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: astranet-api
+    restart: unless-stopped
+    environment:
+      - SERVER_PORT=8080
+      - API_HOST=api.astranetapp.com
+      - DATABASE_DSN=/app/data/amino.db
+      - MEDIA_STORAGE_PATH=/data/media
+      - MEDIA_SERVER_URL=https://media.astranetapp.com/
+      - JWT_SECRET=${JWT_SECRET}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_FROM=${SMTP_FROM}
+      - LIVEKIT_API_KEY=${LIVEKIT_API_KEY}
+      - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
+      - LIVEKIT_URL=${LIVEKIT_URL}
+      - ENABLE_DOCS=false
+      - ERROR_LOG_FILE=/app/logs/error.log
+    volumes:
+      - ./data:/app/data
+      - ./media_files:/data/media
+      - ./logs:/app/logs
+      - ./.env:/app/.env:ro
+    networks:
+      - astranet
+    expose:
+      - "8080"
+
+  media:
+    build:
+      context: .
+      dockerfile: Dockerfile.media
+    container_name: astranet-media
+    restart: unless-stopped
+    environment:
+      - MEDIA_STORAGE_PATH=/data/media
+      - MEDIA_SERVER_PORT=8081
+    volumes:
+      - ./media_files:/data/media
+    networks:
+      - astranet
+    expose:
+      - "8081"
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: astranet-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./web:/srv/web
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - astranet
+    depends_on:
+      - api
+      - media
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  astranet:
+    driver: bridge

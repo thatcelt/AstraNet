@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Astranet — социальная платформа для сообществ">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Theme color for mobile browsers -->
+  <meta name="theme-color" content="#1A1F38" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#1A1F38" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="dark light">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Astranet">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Astranet">
+  <meta property="og:description" content="Astranet — социальная платформа для сообществ">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="icons/Icon-512.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Astranet</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Firebase SDK for Flutter firebase_core_web -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"></script>
+
+  <style>
+    body { background-color: #1A1F38; margin: 0; height: 100%; overflow: hidden; }
+    #loading {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background-color: #1A1F38; z-index: 9999;
+      transition: opacity 0.3s ease;
+    }
+    #loading img { width: 80px; height: 80px; border-radius: 20px; }
+    #loading .spinner {
+      margin-top: 24px; width: 28px; height: 28px;
+      border: 3px solid rgba(255,255,255,0.15);
+      border-top-color: #00FFA3;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <img src="icons/Icon-192.png" alt="Astranet">
+    <div class="spinner"></div>
+  </div>
+
+  <script>
+    // Register service worker for push notifications
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('firebase-messaging-sw.js', {
+          scope: '/firebase-cloud-messaging-push-scope'
+        })
+        .then((registration) => {
+          console.log('Firebase SW registered:', registration);
+        })
+        .catch((error) => {
+          console.error('Firebase SW registration failed:', error);
+        });
+    }
+
+    // Hide loading screen when Flutter is ready
+    window.addEventListener('flutter-first-frame', function () {
+      var el = document.getElementById('loading');
+      if (el) { el.style.opacity = '0'; setTimeout(function() { el.remove(); }, 300); }
+    });
+  </script>
+<script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

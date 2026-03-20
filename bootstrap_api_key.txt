@@ -1,0 +1,30 @@
+╔════════════════════════════════════════════════════════════════╗
+║           GoMino Bootstrap API Key Generated!                  ║
+╚════════════════════════════════════════════════════════════════╝
+
+⚠️  IMPORTANT: Save this key securely - it will not be shown again!
+
+API Key: gm_75123372147d393a33acb851a7df019598c6dcb84b0f59ada2fdf6499b23d8da
+Key ID:  bb18be8accc96009af02d01c2168c5f4
+Name:    Bootstrap Developer Key
+
+This key has been generated for initial development and testing.
+You can use this key to:
+  1. Make API requests without DPoP/Signature validation
+  2. Create additional API keys for specific users
+  3. Test your application integrations
+
+Usage:
+  - Add header: X-API-Key: gm_75123372147d393a33acb851a7df019598c6dcb84b0f59ada2fdf6499b23d8da
+  - Or use: Authorization: Bearer gm_75123372147d393a33acb851a7df019598c6dcb84b0f59ada2fdf6499b23d8da
+
+Rate Limit: 10000 requests/hour
+Expires: Never
+
+═══════════════════════════════════════════════════════════════
+
+Example Python usage:
+  headers = {"X-API-Key": "gm_75123372147d393a33acb851a7df019598c6dcb84b0f59ada2fdf6499b23d8da"}
+  response = requests.get("http://localhost:8080/api/v1/...", headers=headers)
+
+═══════════════════════════════════════════════════════════════

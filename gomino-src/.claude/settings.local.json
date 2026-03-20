@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(go build:*)",
+      "Bash(cat:*)",
+      "Bash(python3 -c \"\nimport os\nimport sys\n\n# Get the actual path from find output\nresult = os.popen\\(''find /home -maxdepth 5 -type d -name Nulla-Client 2>/dev/null''\\).read\\(\\).strip\\(\\)\nif result:\n    paths = result.split\\(''\\\\n''\\)\n    for p in paths:\n        if os.path.isdir\\(p\\):\n            print\\(f''Found directory: {repr\\(p\\)}''\\)\n            # List contents\n            try:\n                items = os.listdir\\(p\\)\n                print\\(f''Contents \\({len\\(items\\)} items\\):''\\)\n                for item in sorted\\(items\\)[:20]:\n                    print\\(f''  {item}''\\)\n            except Exception as e:\n                print\\(f''Error listing: {e}''\\)\n\")",
+      "Bash(flutter pub:*)",
+      "Bash(python3:*)",
+      "Bash(localedef:*)",
+      "Bash(/home/avgust/Документы/flutter/bin/flutter build web --release --wasm --pwa-strategy=offline-first)",
+      "Bash(sqlite3:*)",
+      "Bash(sshpass:*)",
+      "Bash(ls:*)",
+      "Bash(timeout 5 ./gomino:*)",
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Bash(rsync -avz -e \"sshpass -p ''astranet'' ssh -o StrictHostKeyChecking=no\" /home/avgust/Документы/new_projects/projects/GoMino/internal/models/community/banner.go /home/avgust/Документы/new_projects/projects/GoMino/internal/api/community/banners.go /home/avgust/Документы/new_projects/projects/GoMino/internal/api/community/requests.go /home/avgust/Документы/new_projects/projects/GoMino/internal/service/community.go /home/avgust/Документы/new_projects/projects/GoMino/internal/router/router.go /home/avgust/Документы/new_projects/projects/GoMino/cmd/api/main.go root@144.31.166.46:/tmp/gomino_update/)",
+      "Bash(grep:*)",
+      "Bash(flutter analyze:*)"
+    ]
+  }
+}
